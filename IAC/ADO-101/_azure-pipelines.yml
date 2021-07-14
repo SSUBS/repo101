@@ -1,0 +1,50 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-20.04'
+
+variables:
+  isPullRequestBuild: $[eq(variables['Build.Reason'], 'PullRequest')]
+
+steps:
+- task: TerraformInstaller@0
+  displayName: 'install'
+  inputs:
+    terraformVersion: '0.14.7'
+
+- task: TerraformTaskV1@0
+  displayName: 'init'
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    backendServiceArm: 'sd-ne-burst-dev-sp01'
+    backendAzureRmResourceGroupName: 'sd-ne-burst-dev-rgdb'
+    backendAzureRmStorageAccountName: 'sdneburstdevtfsab4a8e'
+    backendAzureRmContainerName: 'terraform'
+    backendAzureRmKey: 'terraform.tfstate'
+    workingDirectory: 'Terraform'
+
+- task: TerraformTaskV1@0
+  displayName: 'plan'
+  inputs:
+    provider: 'azurerm'
+    command: 'plan'
+    workingDirectory: 'Terraform'
+    commandOptions: '-out=tf_plan'
+    environmentServiceNameAzureRM: 'sd-ne-burst-dev-sp01'
+
+- script: |
+    sudo apt install -y colorized-logs
+    terraform show tf_plan | ansi2html -w > tf_plan.html
+  displayName: Save plan output
+  workingDirectory: Terraform
+
+- task: CopyFiles@2
+  displayName: 'Copy Terraform files to artifacts'
+  inputs:
+    SourceFolder: Terraform
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/Terraform'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact'

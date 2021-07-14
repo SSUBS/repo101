@@ -1,0 +1,86 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+name: $(date:yyyy).$(date:MM).$(date:dd)$(Rev:.r)
+ 
+trigger:
+- master
+- feature/*
+- bug/*
+ 
+pool:
+  #name: 'vNext Hosted Pool'
+  name: 'Default'
+  demands:
+  - msbuild
+  - visualstudio
+  - vstest
+ 
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+ 
+workspace: 
+ clean: all
+ 
+steps:
+- checkout: self
+  submodules: true
+  persistCredentials: true
+
+- task: NuGetToolInstaller@1
+  displayName: 'Restore nuget packages in .NET Core projects'
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'restore'
+    restoreSolution: '**/*.sln'
+    feedsToUse: 'select'
+    vstsFeed: 'c812537e-e9f2-46ec-b433-8a511963009a/875b049d-ec59-4cd0-a89c-aec392888719'
+
+- task: PowerShell@2
+  inputs:
+    filePath: '$(build.sourcesDirectory)\$(ConfigFilesPath)\ServiceSetupConfigFiles.ps1'
+    arguments: '-DefinitionName $(Build.DefinitionName) -srcDirectory $(build.sourcesDirectory)\$(ConfigFilesPath) -destDirectory $(build.sourcesDirectory) -buildnumber $(Build.BuildNumber)'
+    failOnStderr: true
+  displayName: 'Copy Live / Preview Config Files To Projects'  
+
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: 'dotnet build $(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Run tests'
+  inputs:
+    command: 'test'
+    projects: '**/*.Tests.csproj'
+    arguments: '--configuration $(BuildConfiguration) --collect "Code Coverage"'
+    publishTestResults: true
+    feedsToUse: 'select'
+    versioningScheme: 'off'
+
+
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    projects: |
+     **/*.sln
+    arguments: '--configuration $(BuildConfiguration)'
+    zipAfterPublish: false
+    modifyOutputPath: false
+  displayName: 'Publish .NET Core projects'    
+
+- task: CopyFiles@2
+  inputs:
+     SourceFolder: ''
+     Contents: '**/bin/Release/**/publish/**'
+     TargetFolder: '$(Build.ArtifactStagingDirectory)'     
+
+- task: PublishBuildArtifacts@1
+  inputs:
+     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+     ArtifactName: 'drop'

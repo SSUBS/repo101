@@ -1,0 +1,158 @@
+version: "3.1"
+
+secrets:
+  client_info:
+    file: ./Secrets/client_info.json
+
+services:
+  nginx:
+    container_name: nginx
+    image: nginx:1-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+      - "11111:443"
+    volumes:
+      - ./Proxy:/etc/nginx
+
+  redis:
+    container_name: redis
+    image: redis:6-alpine
+    ports:
+      - "6379:6379"
+
+  api_gateway:
+    build:
+      context: ../ApiGateway
+      dockerfile: ./ApiGateway/Dockerfile
+    container_name: api_gateway
+    ports:
+      - "11110:80"
+    secrets:
+      - client_info
+    volumes:
+      - ./Config:/home/config
+
+  basket_api:
+    build:
+      context: ../BasketApi
+      dockerfile: ./BasketApi/Dockerfile
+    container_name: basket_api
+    ports:
+      - "8495:80"
+    secrets:
+      - client_info
+    volumes:
+      - ./Config:/home/config
+
+  checkout_api:
+    build:
+      context: ../CheckoutApi
+      dockerfile: ./CheckoutAPI/Dockerfile
+    container_name: checkout_api
+    ports:
+      - "9956:80"
+    secrets:
+      - client_info
+    volumes:
+      - ./Config:/home/config
+
+  delivery_api:
+    build:
+      context: ../DeliveryApi
+      dockerfile: ./DeliveryApi/Dockerfile
+    container_name: delivery_api
+    ports:
+      - "2742:80"
+    secrets:
+      - client_info
+    volumes:
+      - ./Config:/home/config
+
+  identity_server:
+    build:
+      context: ../IdentityServer
+      dockerfile: ./IdentityServer/Dockerfile
+    container_name: identity_server
+    ports:
+      - "5000:80"
+    secrets:
+      - client_info
+    volumes:
+      - ./Config:/home/config
+
+  menu_api:
+    build:
+      context: ../MenuApi
+      dockerfile: ./MenuApi/Dockerfile
+    container_name: menu_api
+    ports:
+      - "5035:80"
+    secrets:
+      - client_info
+    volumes:
+      - ./Config:/home/config
+
+  order_history_api:
+    build:
+      context: ../OrderHistoryApi
+      dockerfile: ./OrderHistoryApi/Dockerfile
+    container_name: order_history_api
+    ports:
+      - "5048:80"
+    secrets:
+      - client_info      
+    volumes:
+      - ./Config:/home/config
+
+  product_api:
+    build:
+      context: ../ProductApi
+      dockerfile: ./ProductApi/Dockerfile
+    container_name: product_api
+    ports:
+      - "6784:80"
+    secrets:
+      - client_info
+    volumes:
+      - ./Config:/home/config
+
+  profile_api:
+    build:
+      context: ../ProfileApi
+      dockerfile: ./ProfileApi/Dockerfile
+    container_name: profile_api
+    ports:
+      - "5001:80"
+    secrets:
+      - client_info
+    volumes:
+      - ./Config:/home/config
+
+  website:
+    build:
+      context: ../Website
+      dockerfile: Website/Dockerfile
+    container_name: website
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "62034:80"
+    secrets:
+      - client_info
+    volumes:
+      - ./Config:/home/config
+
+  website_secure:
+    build:
+      context: ../Website
+      dockerfile: WebsiteSecure/Dockerfile
+    container_name: website_secure
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "62033:80"
+    secrets:
+      - client_info
+    volumes:
+      - ./Config:/home/config
