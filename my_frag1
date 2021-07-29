@@ -1,0 +1,164 @@
+package test
+
+import (
+	"crypto/tls"
+	"fmt"
+	"io/ioutil"
+	"os"
+	"testing"
+	"text/template"
+	"time"
+
+	http_helper "github.com/gruntwork-io/terratest/modules/http-helper"
+	"github.com/gruntwork-io/terratest/modules/terraform"
+	test_structure "github.com/gruntwork-io/terratest/modules/test-structure"
+)
+
+// Configure Terraform Options for use with tests
+var terraformOptionsVault = &terraform.Options{
+	TerraformDir: "../../common/key-vault",
+	Vars: map[string]interface{}{
+		"location":                os.Getenv("TF_VAR_location"),
+		"billingReference":        os.Getenv("TF_VAR_billingReference"),
+		"cmdbReference":           os.Getenv("TF_VAR_cmdbReference"),
+		"opEnvironment":           os.Getenv("TF_VAR_opEnvironment"),
+		"environmentName":         os.Getenv("TF_VAR_environmentName"),
+		"subscriptionId":          os.Getenv("TF_VAR_subscriptionId"),
+		"ubsSubnetName":           os.Getenv("TF_VAR_ubsSubnetName"),
+		"ubsVnetName":             os.Getenv("TF_VAR_ubsVnetName"),
+		"ubsNetResourceGroupName": os.Getenv("TF_VAR_ubsNetResourceGroupName"),
+		"resourceGroupName":       os.Getenv("TF_VAR_keyVaultResourceGroup"),
+		"keyVaultName":            os.Getenv("TF_VAR_keyVaultName"),
+	},
+}
+
+func TestTerraformAzureKeyVaultConfig(t *testing.T) {
+
+	// Spawn Azure Key Vault - prerequisite for Search Sample
+	terraform.InitAndApply(t, terraformOptionsVault)
+}
+
+var terraformOptionsSearchService = &terraform.Options{
+	TerraformDir: "..",
+	Vars: map[string]interface{}{
+		"location":                os.Getenv("TF_VAR_location"),
+		"billingReference":        os.Getenv("TF_VAR_billingReference"),
+		"cmdbReference":           os.Getenv("TF_VAR_cmdbReference"),
+		"opEnvironment":           os.Getenv("TF_VAR_opEnvironment"),
+		"environmentName":         os.Getenv("TF_VAR_environmentName"),
+		"subscriptionId":          os.Getenv("TF_VAR_subscriptionId"),
+		"ubsSubnetName":           os.Getenv("TF_VAR_ubsSubnetName"),
+		"ubsVnetName":             os.Getenv("TF_VAR_ubsVnetName"),
+		"ubsNetResourceGroupName": os.Getenv("TF_VAR_ubsNetResourceGroupName"),
+		"resourceGroupName":       os.Getenv("TF_VAR_resourceGroupName"),
+		"keyVaultResourceGroup":   os.Getenv("TF_VAR_environmentName") + "-" + os.Getenv("TF_VAR_keyVaultResourceGroup"),
+		"keyVaultName":            os.Getenv("TF_VAR_keyVaultName"),
+		"searchServiceName":       os.Getenv("TF_VAR_searchServiceName"),
+		"useCustomerManagedKeys":  os.Getenv("TF_VAR_useCustomerManagedKeys"),
+	},
+}
+
+func TestTerraformAzureSearchServiceConfigIdempotency(t *testing.T) {
+
+	// Test idempotency
+	terraform.InitAndApplyAndIdempotent(t, terraformOptionsSearchService)
+}
+
+func TestTerraformAzureSearchServiceIndex(t *testing.T) {
+
+	// At the end of the test, run `terraform destroy` to clean up any resources that were created
+	defer test_structure.RunTestStage(t, "destroy", func() {
+		terraform.Destroy(t, terraformOptionsSearchService)
+		terraform.Destroy(t, terraformOptionsVault)
+	})
+
+	// Run `terraform output` to get the values of output variables
+
+	apiKey := terraform.Output(t, terraformOptionsSearchService, "admin_key_secondary")
+	deployUrl := fmt.Sprintf("https://%s.search.windows.net/indexes?api-version=2020-06-30", os.Getenv("TF_VAR_searchServiceName"))
+
+	// Prepare headers for index creation
+	tlsConfig := tls.Config{}
+	headers := map[string]string{
+		"Content-Type": "application/json",
+		"api-key":      apiKey,
+	}
+
+	var templateName string
+
+	if os.Getenv("TF_VAR_useCustomerManagedKeys") == "true" {
+
+		type SearchEncryptionKey []struct {
+			Curve          string      `json:"curve"`
+			E              string      `json:"e"`
+			ExpirationDate interface{} `json:"expiration_date"`
+			ID             string      `json:"id"`
+			KeyOpts        []string    `json:"key_opts"`
+			KeySize        int         `json:"key_size"`
+			KeyType        string      `json:"key_type"`
+			KeyVaultID     string      `json:"key_vault_id"`
+			N              string      `json:"n"`
+			Name           string      `json:"name"`
+			NotBeforeDate  interface{} `json:"not_before_date"`
+			Tags           struct {
+				Billingreference string `json:"billingReference"`
+				Cmdbreference    string `json:"cmdbReference"`
+				Environment      string `json:"environment"`
+				Openvironment    string `json:"opEnvironment"`
+			} `json:"tags"`
+			Timeouts      interface{} `json:"timeouts"`
+			Version       string      `json:"version"`
+			VersionlessID string      `json:"versionless_id"`
+			X             string      `json:"x"`
+			Y             string      `json:"y"`
+		}
+
+		var searchEncryptionKey SearchEncryptionKey
+
+		// Prepare values needed for templating index.json if testing with enabled CMK
+		vaultName := os.Getenv("TF_VAR_keyVaultName")
+		err := terraform.OutputStructE(t, terraformOptionsSearchService, "search_encryption_key", &searchEncryptionKey)
+		if err != nil {
+			t.Errorf("failed to parse output struct for search_encryption_key: %v", err)
+		}
+		keyName := searchEncryptionKey[0].Name
+		keyVersion := searchEncryptionKey[0].Version
+		templateName = "indexcmk.json"
+
+		tpl, err := template.ParseFiles("indexcmk.gojson")
+		if err != nil {
+			t.Errorf("failed to parse cmk index template: %v", err)
+		}
+		type SearchKey struct {
+			VaultName  string
+			KeyName    string
+			KeyVersion string
+		}
+		searchKey := SearchKey{
+			VaultName:  vaultName,
+			KeyName:    keyName,
+			KeyVersion: keyVersion,
+		}
+		// Create indexcmk.json template to create search index using CMK
+		indexDefinition, err := os.Create(templateName)
+		if err != nil {
+			t.Errorf("failed to create cmk index json file: %v", err)
+		}
+		// Template indexcmk.json with vault address, search encryption key name and version
+		err = tpl.Execute(indexDefinition, searchKey)
+		if err != nil {
+			t.Errorf("failed to execute cmk index template: %v", err)
+		}
+	} else {
+		// If not testing with CMK enabled, just use simple definition of index
+		templateName = "index.json"
+	}
+	requestBody, err := ioutil.ReadFile(templateName)
+	if err != nil {
+		t.Errorf("failed to read index template: %v", err)
+	}
+	maxRetriesHttpPost := 3
+	timeBetweenRetriesHttpPost := 300 * time.Second
+
+	http_helper.HTTPDoWithRetry(t, "POST", deployUrl, requestBody, headers, 201, maxRetriesHttpPost, timeBetweenRetriesHttpPost, &tlsConfig)
+}
