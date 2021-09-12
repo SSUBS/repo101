@@ -1,0 +1,187 @@
+trigger:
+- none
+
+pool:
+ vmImage: 'ubuntu-latest'
+
+stages: 
+- stage: Developemnt
+  jobs:
+  - deployment: IaC
+    environment: DEV
+    variables:
+    - group: dev-vg
+  - job: DEV_fmt
+    displayName: 'Terraform fmt'
+    steps:
+    - script: echo run terraform fmt
+
+  - job: DEV_init
+    dependsOn: DEV_fmt
+    displayName: 'Terraform init'
+    steps:
+    - script: echo run terraform init
+
+  - job: DEV_lint
+    dependsOn: DEV_init
+    displayName: 'Terraform compliance' 
+    steps:
+    - script: echo option to use compliance tool https://terraform-compliance.com/ 
+
+  - job: DEV_plan
+    dependsOn: DEV_lint
+    displayName: 'Terraform plan'
+    steps:
+    - script: echo run terraform plan for DEV
+  
+  - job: DEV_apply
+    dependsOn: DEV_plan
+    displayName: 'Terraform apply'
+    steps:
+    - script: echo run terraform apply to Development Environment
+#
+#
+- stage: SystemTesting
+  jobs:
+  - deployment: IaC
+    environment: TST
+    variables:
+    - group: tst-vg
+  - job: TST_fmt
+    displayName: Terraform fmt
+    steps:
+    - script: echo run terraform fmt
+
+  - job: TST_init
+    dependsOn: TST_fmt
+    displayName: Terraform init
+    steps:
+    - script: echo run terraform init
+
+  - job: TST_lint
+    dependsOn: TST_init
+    displayName: 'Terraform compliance' 
+    steps:
+    - script: echo option to use compliance tool https://terraform-compliance.com/ 
+
+  - job: TST_plan
+    dependsOn: TST_lint
+    displayName: 'Terraform plan'
+    steps:
+    - script: echo run terraform plan for TST
+  
+  - job: TST_apply
+    dependsOn: TST_plan
+    displayName: 'Terraform apply'
+    steps:
+    - script: echo run terraform apply to Testing Environment
+#
+#
+- stage: UserAcceptanceTesting
+  jobs:
+  - deployment: IaC
+    environment: UAT
+    variables:
+    - group: uat-vg
+  - job: UAT_fmt
+    displayName: Terraform fmt
+    steps:
+    - script: echo run terraform fmt
+
+  - job: UAT_init
+    dependsOn: UAT_fmt
+    displayName: Terraform init
+    steps:
+    - script: echo run terraform init
+
+  - job: UAT_lint
+    dependsOn: UAT_init
+    displayName: 'Terraform compliance' 
+    steps:
+    - script: echo option to use compliance tool https://terraform-compliance.com/ 
+
+  - job: UAT_plan
+    dependsOn: UAT_lint
+    displayName: 'Terraform plan'
+    steps:
+    - script: echo run terraform plan for UAT
+  
+  - job: UAT_apply
+    dependsOn: UAT_plan
+    displayName: 'Terraform apply'
+    steps:
+    - script: echo run terraform apply to User Acceptance Testing Environment
+#
+#
+- stage: OperationalAcceptanceTesting
+  jobs:
+  - deployment: IaC
+    environment: OAT
+    variables:
+    - group: oat-vg
+  - job: OAT_fmt
+    displayName: Terraform fmt
+    steps:
+    - script: echo run terraform fmt
+
+  - job: OAT_init
+    dependsOn: OAT_fmt
+    displayName: Terraform init
+    steps:
+    - script: echo run terraform init
+
+  - job: OAT_lint
+    dependsOn: OAT_init
+    displayName: 'Terraform compliance' 
+    steps:
+    - script: echo option to use compliance tool https://terraform-compliance.com/ 
+
+  - job: OAT_plan
+    dependsOn: OAT_lint
+    displayName: 'Terraform plan'
+    steps:
+    - script: echo run terraform plan for OAT
+  
+  - job: OAT_apply
+    dependsOn: OAT_plan
+    displayName: 'Terraform apply'
+    steps:
+    - script: echo run terraform apply to Operational Acceptance Testing Environment
+#
+#
+- stage: Production
+  jobs:
+  - deployment: IaC
+    environment: PRD
+    variables:
+    - group: prd-vg
+  - job: PRD_fmt
+    displayName: Terraform fmt
+    steps:
+    - script: echo run terraform fmt
+
+  - job: PRD_init
+    dependsOn: PRD_fmt
+    displayName: Terraform init
+    steps:
+    - script: echo run terraform init
+
+  - job: PRD_lint
+    dependsOn: PRD_init
+    displayName: 'Terraform compliance' 
+    steps:
+    - script: echo option to use compliance tool https://terraform-compliance.com/ 
+
+  - job: PRD_plan
+    dependsOn: PRD_lint
+    displayName: 'Terraform plan'
+    steps:
+    - script: echo run terraform plan for OAT
+  
+  - job: PRD_apply
+    dependsOn: PRD_plan
+    displayName: 'Terraform apply'
+    steps:
+    - script: echo run terraform apply to Operational Acceptance Testing Environment
+#
+#
