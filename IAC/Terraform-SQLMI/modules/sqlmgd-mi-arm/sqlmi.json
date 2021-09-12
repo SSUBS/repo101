@@ -1,0 +1,1363 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "vulnerabilityAssessments_Default_storageContainerPath": {
+            "type": "SecureString"
+        },
+        "managedInstances_sd_ne_burst_test_sqlmgd01_name": {
+            "defaultValue": "sd-ne-burst-test-sqlmgd01",
+            "type": "String"
+        },
+        "servers_sd_ne_burst_test_sqlmgd01_name": {
+            "defaultValue": "sd-ne-burst-test-sqlmgd01",
+            "type": "String"
+        },
+        "virtualNetworks_vnet_sd_ne_burst_test_sqlmgd01_externalid": {
+            "defaultValue": "/subscriptions/7714ce6f-7fdf-4707-8e47-1436594d2b35/resourceGroups/sd-ne-burst-test-rgdb/providers/Microsoft.Network/virtualNetworks/vnet-sd-ne-burst-test-sqlmgd01",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Sql/managedInstances",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name')]",
+            "location": "northeurope",
+            "sku": {
+                "name": "GP_Gen5",
+                "tier": "GeneralPurpose",
+                "family": "Gen5",
+                "capacity": 4
+            },
+            "identity": {
+                "principalId": "7a914d6b-844f-4ae4-95e2-d0a377693057",
+                "tenantId": "b4a8e931-f8f4-4453-b7db-c5f6476641f0",
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "administratorLogin": "burstmanagedinstance",
+                "subnetId": "[concat(parameters('virtualNetworks_vnet_sd_ne_burst_test_sqlmgd01_externalid'), '/subnets/ManagedInstace_01')]",
+                "licenseType": "LicenseIncluded",
+                "vCores": 4,
+                "storageSizeInGB": 256,
+                "collation": "SQL_Latin1_General_CP1_CI_AS",
+                "publicDataEndpointEnabled": true,
+                "proxyOverride": "Redirect",
+                "timezoneId": "GMT Standard Time",
+                "maintenanceConfigurationId": "/subscriptions/7714ce6f-7fdf-4707-8e47-1436594d2b35/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default",
+                "minimalTlsVersion": "1.2",
+                "storageAccountType": "GRS",
+                "zoneRedundant": false
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/vulnerabilityAssessments",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('servers_sd_ne_burst_test_sqlmgd01_name'), '/Basket/Default')]",
+            "properties": {
+                "recurringScans": {
+                    "isEnabled": false,
+                    "emailSubscriptionAdmins": true
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/vulnerabilityAssessments",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('servers_sd_ne_burst_test_sqlmgd01_name'), '/Catalogue/Default')]",
+            "properties": {
+                "recurringScans": {
+                    "isEnabled": false,
+                    "emailSubscriptionAdmins": true
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/vulnerabilityAssessments",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('servers_sd_ne_burst_test_sqlmgd01_name'), '/Configuration/Default')]",
+            "properties": {
+                "recurringScans": {
+                    "isEnabled": false,
+                    "emailSubscriptionAdmins": true
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/vulnerabilityAssessments",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('servers_sd_ne_burst_test_sqlmgd01_name'), '/Ecommerce/Default')]",
+            "properties": {
+                "recurringScans": {
+                    "isEnabled": false,
+                    "emailSubscriptionAdmins": true
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/vulnerabilityAssessments",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('servers_sd_ne_burst_test_sqlmgd01_name'), '/ELMAH/Default')]",
+            "properties": {
+                "recurringScans": {
+                    "isEnabled": false,
+                    "emailSubscriptionAdmins": true
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/vulnerabilityAssessments",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('servers_sd_ne_burst_test_sqlmgd01_name'), '/Global_marketing/Default')]",
+            "properties": {
+                "recurringScans": {
+                    "isEnabled": false,
+                    "emailSubscriptionAdmins": true
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/vulnerabilityAssessments",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('servers_sd_ne_burst_test_sqlmgd01_name'), '/Global_profiles/Default')]",
+            "properties": {
+                "recurringScans": {
+                    "isEnabled": false,
+                    "emailSubscriptionAdmins": true
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/vulnerabilityAssessments",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('servers_sd_ne_burst_test_sqlmgd01_name'), '/Global_transactionconfig/Default')]",
+            "properties": {
+                "recurringScans": {
+                    "isEnabled": false,
+                    "emailSubscriptionAdmins": true
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/vulnerabilityAssessments",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('servers_sd_ne_burst_test_sqlmgd01_name'), '/Global_transactions/Default')]",
+            "properties": {
+                "recurringScans": {
+                    "isEnabled": false,
+                    "emailSubscriptionAdmins": true
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/vulnerabilityAssessments",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('servers_sd_ne_burst_test_sqlmgd01_name'), '/IdentityServer/Default')]",
+            "properties": {
+                "recurringScans": {
+                    "isEnabled": false,
+                    "emailSubscriptionAdmins": true
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/vulnerabilityAssessments",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('servers_sd_ne_burst_test_sqlmgd01_name'), '/Logging/Default')]",
+            "properties": {
+                "recurringScans": {
+                    "isEnabled": false,
+                    "emailSubscriptionAdmins": true
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/vulnerabilityAssessments",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('servers_sd_ne_burst_test_sqlmgd01_name'), '/Orders/Default')]",
+            "properties": {
+                "recurringScans": {
+                    "isEnabled": false,
+                    "emailSubscriptionAdmins": true
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/vulnerabilityAssessments",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('servers_sd_ne_burst_test_sqlmgd01_name'), '/Profile/Default')]",
+            "properties": {
+                "recurringScans": {
+                    "isEnabled": false,
+                    "emailSubscriptionAdmins": true
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/vulnerabilityAssessments",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('servers_sd_ne_burst_test_sqlmgd01_name'), '/Promotions/Default')]",
+            "properties": {
+                "recurringScans": {
+                    "isEnabled": false,
+                    "emailSubscriptionAdmins": true
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/vulnerabilityAssessments",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('servers_sd_ne_burst_test_sqlmgd01_name'), '/SchemaAnalysis/Default')]",
+            "properties": {
+                "recurringScans": {
+                    "isEnabled": false,
+                    "emailSubscriptionAdmins": true
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/administrators",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/ActiveDirectory')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "administratorType": "ActiveDirectory",
+                "login": "Azure Role testelopment",
+                "sid": "9b3d6abc-e302-4253-82fd-de9ddf769c1f",
+                "tenantId": "b4a8e931-f8f4-4453-b7db-c5f6476641f0"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/azureADOnlyAuthentications",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "azureADOnlyAuthentication": false
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Basket')]",
+            "location": "northeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "collation": "SQL_Latin1_General_CP1_CI_AS"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Catalogue')]",
+            "location": "northeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "collation": "SQL_Latin1_General_CP1_CI_AS"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Configuration')]",
+            "location": "northeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "collation": "SQL_Latin1_General_CP1_CI_AS"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Ecommerce')]",
+            "location": "northeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "collation": "SQL_Latin1_General_CP1_CI_AS"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/ELMAH')]",
+            "location": "northeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "collation": "SQL_Latin1_General_CP1_CI_AS"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Global_marketing')]",
+            "location": "northeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "collation": "SQL_Latin1_General_CP1_CI_AS"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Global_profiles')]",
+            "location": "northeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "collation": "SQL_Latin1_General_CP1_CI_AS"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Global_transactionconfig')]",
+            "location": "northeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "collation": "SQL_Latin1_General_CP1_CI_AS"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Global_transactions')]",
+            "location": "northeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "collation": "SQL_Latin1_General_CP1_CI_AS"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/IdentityServer')]",
+            "location": "northeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "collation": "SQL_Latin1_General_CP1_CI_AS"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Logging')]",
+            "location": "northeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "collation": "SQL_Latin1_General_CP1_CI_AS"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Orders')]",
+            "location": "northeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "collation": "SQL_Latin1_General_CP1_CI_AS"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Profile')]",
+            "location": "northeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "collation": "SQL_Latin1_General_CP1_CI_AS"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Promotions')]",
+            "location": "northeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "collation": "SQL_Latin1_General_CP1_CI_AS"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/SchemaAnalysis')]",
+            "location": "northeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "collation": "SQL_Latin1_General_CP1_CI_AS"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/encryptionProtector",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/current')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "kind": "servicemanaged",
+            "properties": {
+                "serverKeyName": "ServiceManaged",
+                "serverKeyType": "ServiceManaged",
+                "autoRotationEnabled": false
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/keys",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/ServiceManaged')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "kind": "servicemanaged",
+            "properties": {
+                "serverKeyType": "ServiceManaged"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/securityAlertPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/vulnerabilityAssessments",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "recurringScans": {
+                    "isEnabled": false,
+                    "emailSubscriptionAdmins": true
+                },
+                "storageContainerPath": "[parameters('vulnerabilityAssessments_Default_storageContainerPath')]"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/backupLongTermRetentionPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Basket/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Basket')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "weeklyRetention": "PT0S",
+                "monthlyRetention": "PT0S",
+                "yearlyRetention": "PT0S",
+                "weekOfYear": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/backupLongTermRetentionPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Catalogue/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Catalogue')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "weeklyRetention": "PT0S",
+                "monthlyRetention": "PT0S",
+                "yearlyRetention": "PT0S",
+                "weekOfYear": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/backupLongTermRetentionPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Configuration/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Configuration')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "weeklyRetention": "PT0S",
+                "monthlyRetention": "PT0S",
+                "yearlyRetention": "PT0S",
+                "weekOfYear": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/backupLongTermRetentionPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Ecommerce/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Ecommerce')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "weeklyRetention": "PT0S",
+                "monthlyRetention": "PT0S",
+                "yearlyRetention": "PT0S",
+                "weekOfYear": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/backupLongTermRetentionPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/ELMAH/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'ELMAH')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "weeklyRetention": "PT0S",
+                "monthlyRetention": "PT0S",
+                "yearlyRetention": "PT0S",
+                "weekOfYear": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/backupLongTermRetentionPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Global_marketing/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Global_marketing')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "weeklyRetention": "PT0S",
+                "monthlyRetention": "PT0S",
+                "yearlyRetention": "PT0S",
+                "weekOfYear": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/backupLongTermRetentionPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Global_profiles/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Global_profiles')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "weeklyRetention": "PT0S",
+                "monthlyRetention": "PT0S",
+                "yearlyRetention": "PT0S",
+                "weekOfYear": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/backupLongTermRetentionPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Global_transactionconfig/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Global_transactionconfig')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "weeklyRetention": "PT0S",
+                "monthlyRetention": "PT0S",
+                "yearlyRetention": "PT0S",
+                "weekOfYear": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/backupLongTermRetentionPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Global_transactions/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Global_transactions')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "weeklyRetention": "PT0S",
+                "monthlyRetention": "PT0S",
+                "yearlyRetention": "PT0S",
+                "weekOfYear": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/backupLongTermRetentionPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/IdentityServer/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'IdentityServer')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "weeklyRetention": "PT0S",
+                "monthlyRetention": "PT0S",
+                "yearlyRetention": "PT0S",
+                "weekOfYear": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/backupLongTermRetentionPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Logging/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Logging')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "weeklyRetention": "PT0S",
+                "monthlyRetention": "PT0S",
+                "yearlyRetention": "PT0S",
+                "weekOfYear": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/backupLongTermRetentionPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Orders/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Orders')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "weeklyRetention": "PT0S",
+                "monthlyRetention": "PT0S",
+                "yearlyRetention": "PT0S",
+                "weekOfYear": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/backupLongTermRetentionPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Profile/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Profile')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "weeklyRetention": "PT0S",
+                "monthlyRetention": "PT0S",
+                "yearlyRetention": "PT0S",
+                "weekOfYear": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/backupLongTermRetentionPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Promotions/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Promotions')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "weeklyRetention": "PT0S",
+                "monthlyRetention": "PT0S",
+                "yearlyRetention": "PT0S",
+                "weekOfYear": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/backupLongTermRetentionPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/SchemaAnalysis/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'SchemaAnalysis')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "weeklyRetention": "PT0S",
+                "monthlyRetention": "PT0S",
+                "yearlyRetention": "PT0S",
+                "weekOfYear": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/backupShortTermRetentionPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Basket/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Basket')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "retentionDays": 7
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/backupShortTermRetentionPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Catalogue/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Catalogue')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "retentionDays": 7
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/backupShortTermRetentionPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Configuration/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Configuration')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "retentionDays": 7
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/backupShortTermRetentionPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Ecommerce/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Ecommerce')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "retentionDays": 7
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/backupShortTermRetentionPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/ELMAH/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'ELMAH')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "retentionDays": 7
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/backupShortTermRetentionPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Global_marketing/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Global_marketing')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "retentionDays": 7
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/backupShortTermRetentionPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Global_profiles/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Global_profiles')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "retentionDays": 7
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/backupShortTermRetentionPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Global_transactionconfig/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Global_transactionconfig')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "retentionDays": 7
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/backupShortTermRetentionPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Global_transactions/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Global_transactions')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "retentionDays": 7
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/backupShortTermRetentionPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/IdentityServer/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'IdentityServer')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "retentionDays": 7
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/backupShortTermRetentionPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Logging/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Logging')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "retentionDays": 7
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/backupShortTermRetentionPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Orders/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Orders')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "retentionDays": 7
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/backupShortTermRetentionPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Profile/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Profile')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "retentionDays": 7
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/backupShortTermRetentionPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Promotions/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Promotions')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "retentionDays": 7
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/backupShortTermRetentionPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/SchemaAnalysis/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'SchemaAnalysis')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "retentionDays": 7
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/securityAlertPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Basket/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Basket')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled",
+                "disabledAlerts": [
+                    ""
+                ],
+                "emailAddresses": [
+                    ""
+                ],
+                "emailAccountAdmins": false,
+                "retentionDays": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/securityAlertPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Catalogue/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Catalogue')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled",
+                "disabledAlerts": [
+                    ""
+                ],
+                "emailAddresses": [
+                    ""
+                ],
+                "emailAccountAdmins": false,
+                "retentionDays": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/securityAlertPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Configuration/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Configuration')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled",
+                "disabledAlerts": [
+                    ""
+                ],
+                "emailAddresses": [
+                    ""
+                ],
+                "emailAccountAdmins": false,
+                "retentionDays": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/securityAlertPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Ecommerce/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Ecommerce')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled",
+                "disabledAlerts": [
+                    ""
+                ],
+                "emailAddresses": [
+                    ""
+                ],
+                "emailAccountAdmins": false,
+                "retentionDays": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/securityAlertPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/ELMAH/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'ELMAH')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled",
+                "disabledAlerts": [
+                    ""
+                ],
+                "emailAddresses": [
+                    ""
+                ],
+                "emailAccountAdmins": false,
+                "retentionDays": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/securityAlertPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Global_marketing/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Global_marketing')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled",
+                "disabledAlerts": [
+                    ""
+                ],
+                "emailAddresses": [
+                    ""
+                ],
+                "emailAccountAdmins": false,
+                "retentionDays": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/securityAlertPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Global_profiles/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Global_profiles')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled",
+                "disabledAlerts": [
+                    ""
+                ],
+                "emailAddresses": [
+                    ""
+                ],
+                "emailAccountAdmins": false,
+                "retentionDays": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/securityAlertPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Global_transactionconfig/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Global_transactionconfig')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled",
+                "disabledAlerts": [
+                    ""
+                ],
+                "emailAddresses": [
+                    ""
+                ],
+                "emailAccountAdmins": false,
+                "retentionDays": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/securityAlertPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Global_transactions/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Global_transactions')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled",
+                "disabledAlerts": [
+                    ""
+                ],
+                "emailAddresses": [
+                    ""
+                ],
+                "emailAccountAdmins": false,
+                "retentionDays": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/securityAlertPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/IdentityServer/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'IdentityServer')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled",
+                "disabledAlerts": [
+                    ""
+                ],
+                "emailAddresses": [
+                    ""
+                ],
+                "emailAccountAdmins": false,
+                "retentionDays": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/securityAlertPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Logging/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Logging')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled",
+                "disabledAlerts": [
+                    ""
+                ],
+                "emailAddresses": [
+                    ""
+                ],
+                "emailAccountAdmins": false,
+                "retentionDays": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/securityAlertPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Orders/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Orders')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled",
+                "disabledAlerts": [
+                    ""
+                ],
+                "emailAddresses": [
+                    ""
+                ],
+                "emailAccountAdmins": false,
+                "retentionDays": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/securityAlertPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Profile/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Profile')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled",
+                "disabledAlerts": [
+                    ""
+                ],
+                "emailAddresses": [
+                    ""
+                ],
+                "emailAccountAdmins": false,
+                "retentionDays": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/securityAlertPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Promotions/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Promotions')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled",
+                "disabledAlerts": [
+                    ""
+                ],
+                "emailAddresses": [
+                    ""
+                ],
+                "emailAccountAdmins": false,
+                "retentionDays": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/securityAlertPolicies",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/SchemaAnalysis/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'SchemaAnalysis')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled",
+                "disabledAlerts": [
+                    ""
+                ],
+                "emailAddresses": [
+                    ""
+                ],
+                "emailAccountAdmins": false,
+                "retentionDays": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/transparentDataEncryption",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Basket/Current')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Basket')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/transparentDataEncryption",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Catalogue/Current')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Catalogue')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/transparentDataEncryption",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Configuration/Current')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Configuration')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/transparentDataEncryption",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Ecommerce/Current')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Ecommerce')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/transparentDataEncryption",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/ELMAH/Current')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'ELMAH')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/transparentDataEncryption",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Global_marketing/Current')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Global_marketing')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/transparentDataEncryption",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Global_profiles/Current')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Global_profiles')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/transparentDataEncryption",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Global_transactionconfig/Current')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Global_transactionconfig')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/transparentDataEncryption",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Global_transactions/Current')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Global_transactions')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/transparentDataEncryption",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/IdentityServer/Current')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'IdentityServer')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/transparentDataEncryption",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Logging/Current')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Logging')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/transparentDataEncryption",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Orders/Current')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Orders')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/transparentDataEncryption",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Profile/Current')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Profile')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/transparentDataEncryption",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/Promotions/Current')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'Promotions')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances/databases/transparentDataEncryption",
+            "apiVersion": "2020-08-01-preview",
+            "name": "[concat(parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), '/SchemaAnalysis/Current')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/managedInstances/databases', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'), 'SchemaAnalysis')]",
+                "[resourceId('Microsoft.Sql/managedInstances', parameters('managedInstances_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "state": "Enabled"
+            }
+        }
+    ]
+}

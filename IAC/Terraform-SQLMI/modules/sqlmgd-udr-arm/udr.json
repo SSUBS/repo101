@@ -1,0 +1,657 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "routeTables_rt_sd_ne_burst_test_sqlmgd01_name": {
+            "defaultValue": "rt-sd-ne-burst-test-sqlmgd01",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/routeTables",
+            "apiVersion": "2020-08-01",
+            "name": "[parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name')]",
+            "location": "northeurope",
+            "tags": {
+                "Creator": "david.sneddon@frasers.group"
+            },
+            "properties": {
+                "disableBgpRoutePropagation": false,
+                "routes": [
+                    {
+                        "name": "SqlManagement_0",
+                        "properties": {
+                            "addressPrefix": "65.55.188.0/24",
+                            "nextHopType": "Internet",
+                            "hasBgpOverride": false
+                        }
+                    },
+                    {
+                        "name": "SqlManagement_1",
+                        "properties": {
+                            "addressPrefix": "207.68.190.32/27",
+                            "nextHopType": "Internet",
+                            "hasBgpOverride": false
+                        }
+                    },
+                    {
+                        "name": "SqlManagement_2",
+                        "properties": {
+                            "addressPrefix": "13.106.78.32/27",
+                            "nextHopType": "Internet",
+                            "hasBgpOverride": false
+                        }
+                    },
+                    {
+                        "name": "SqlManagement_3",
+                        "properties": {
+                            "addressPrefix": "13.106.174.32/27",
+                            "nextHopType": "Internet",
+                            "hasBgpOverride": false
+                        }
+                    },
+                    {
+                        "name": "SqlManagement_4",
+                        "properties": {
+                            "addressPrefix": "13.106.4.96/27",
+                            "nextHopType": "Internet",
+                            "hasBgpOverride": false
+                        }
+                    },
+                    {
+                        "name": "SqlManagement_5",
+                        "properties": {
+                            "addressPrefix": "104.214.108.80/32",
+                            "nextHopType": "Internet",
+                            "hasBgpOverride": false
+                        }
+                    },
+                    {
+                        "name": "SqlManagement_6",
+                        "properties": {
+                            "addressPrefix": "52.179.184.76/32",
+                            "nextHopType": "Internet",
+                            "hasBgpOverride": false
+                        }
+                    },
+                    {
+                        "name": "SqlManagement_7",
+                        "properties": {
+                            "addressPrefix": "52.187.116.202/32",
+                            "nextHopType": "Internet",
+                            "hasBgpOverride": false
+                        }
+                    },
+                    {
+                        "name": "SqlManagement_8",
+                        "properties": {
+                            "addressPrefix": "52.177.202.6/32",
+                            "nextHopType": "Internet",
+                            "hasBgpOverride": false
+                        }
+                    },
+                    {
+                        "name": "SqlManagement_9",
+                        "properties": {
+                            "addressPrefix": "191.235.193.75/32",
+                            "nextHopType": "Internet",
+                            "hasBgpOverride": false
+                        }
+                    },
+                    {
+                        "name": "SqlManagement_10",
+                        "properties": {
+                            "addressPrefix": "40.113.93.91/32",
+                            "nextHopType": "Internet",
+                            "hasBgpOverride": false
+                        }
+                    },
+                    {
+                        "name": "SqlManagement_11",
+                        "properties": {
+                            "addressPrefix": "13.69.227.96/27",
+                            "nextHopType": "Internet",
+                            "hasBgpOverride": false
+                        }
+                    },
+                    {
+                        "name": "SqlManagement_12",
+                        "properties": {
+                            "addressPrefix": "52.138.226.96/27",
+                            "nextHopType": "Internet",
+                            "hasBgpOverride": false
+                        }
+                    },
+                    {
+                        "name": "SqlManagement_13",
+                        "properties": {
+                            "addressPrefix": "13.74.107.96/27",
+                            "nextHopType": "Internet",
+                            "hasBgpOverride": false
+                        }
+                    },
+                    {
+                        "name": "SqlManagement_14",
+                        "properties": {
+                            "addressPrefix": "52.233.130.100/32",
+                            "nextHopType": "Internet",
+                            "hasBgpOverride": false
+                        }
+                    },
+                    {
+                        "name": "SqlManagement_15",
+                        "properties": {
+                            "addressPrefix": "52.164.200.174/32",
+                            "nextHopType": "Internet",
+                            "hasBgpOverride": false
+                        }
+                    },
+                    {
+                        "name": "SqlManagement_16",
+                        "properties": {
+                            "addressPrefix": "104.46.95.225/32",
+                            "nextHopType": "Internet",
+                            "hasBgpOverride": false
+                        }
+                    },
+                    {
+                        "name": "SqlManagement_17",
+                        "properties": {
+                            "addressPrefix": "40.85.81.65/32",
+                            "nextHopType": "Internet",
+                            "hasBgpOverride": false
+                        }
+                    },
+                    {
+                        "name": "Microsoft.Sql-managedInstances_UseOnly_subnet-172-17-226-0-24-to-vnetlocal",
+                        "properties": {
+                            "addressPrefix": "172.17.226.0/24",
+                            "nextHopType": "VnetLocal",
+                            "hasBgpOverride": false
+                        }
+                    },
+                    {
+                        "name": "Microsoft.Sql-managedInstances_UseOnly_mi-Storage",
+                        "properties": {
+                            "addressPrefix": "Storage",
+                            "nextHopType": "Internet",
+                            "hasBgpOverride": false
+                        }
+                    },
+                    {
+                        "name": "Microsoft.Sql-managedInstances_UseOnly_mi-SqlManagement",
+                        "properties": {
+                            "addressPrefix": "SqlManagement",
+                            "nextHopType": "Internet",
+                            "hasBgpOverride": false
+                        }
+                    },
+                    {
+                        "name": "Microsoft.Sql-managedInstances_UseOnly_mi-AzureMonitor",
+                        "properties": {
+                            "addressPrefix": "AzureMonitor",
+                            "nextHopType": "Internet",
+                            "hasBgpOverride": false
+                        }
+                    },
+                    {
+                        "name": "Microsoft.Sql-managedInstances_UseOnly_mi-CorpNetSaw",
+                        "properties": {
+                            "addressPrefix": "CorpNetSaw",
+                            "nextHopType": "Internet",
+                            "hasBgpOverride": false
+                        }
+                    },
+                    {
+                        "name": "Microsoft.Sql-managedInstances_UseOnly_mi-CorpNetPublic",
+                        "properties": {
+                            "addressPrefix": "CorpNetPublic",
+                            "nextHopType": "Internet",
+                            "hasBgpOverride": false
+                        }
+                    },
+                    {
+                        "name": "Microsoft.Sql-managedInstances_UseOnly_mi-AzureCloud.northeurope",
+                        "properties": {
+                            "addressPrefix": "AzureCloud.northeurope",
+                            "nextHopType": "Internet",
+                            "hasBgpOverride": false
+                        }
+                    },
+                    {
+                        "name": "Microsoft.Sql-managedInstances_UseOnly_mi-AzureCloud.westeurope",
+                        "properties": {
+                            "addressPrefix": "AzureCloud.westeurope",
+                            "nextHopType": "Internet",
+                            "hasBgpOverride": false
+                        }
+                    },
+                    {
+                        "name": "Microsoft.Sql-managedInstances_UseOnly_mi-Storage.northeurope",
+                        "properties": {
+                            "addressPrefix": "Storage.northeurope",
+                            "nextHopType": "Internet",
+                            "hasBgpOverride": false
+                        }
+                    },
+                    {
+                        "name": "Microsoft.Sql-managedInstances_UseOnly_mi-Storage.westeurope",
+                        "properties": {
+                            "addressPrefix": "Storage.westeurope",
+                            "nextHopType": "Internet",
+                            "hasBgpOverride": false
+                        }
+                    },
+                    {
+                        "name": "Microsoft.Sql-managedInstances_UseOnly_mi-EventHub.northeurope",
+                        "properties": {
+                            "addressPrefix": "EventHub.northeurope",
+                            "nextHopType": "Internet",
+                            "hasBgpOverride": false
+                        }
+                    },
+                    {
+                        "name": "Microsoft.Sql-managedInstances_UseOnly_mi-EventHub.westeurope",
+                        "properties": {
+                            "addressPrefix": "EventHub.westeurope",
+                            "nextHopType": "Internet",
+                            "hasBgpOverride": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/routeTables/routes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'), '/Microsoft.Sql-managedInstances_UseOnly_mi-AzureCloud.northeurope')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "AzureCloud.northeurope",
+                "nextHopType": "Internet",
+                "hasBgpOverride": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/routeTables/routes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'), '/Microsoft.Sql-managedInstances_UseOnly_mi-AzureCloud.westeurope')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "AzureCloud.westeurope",
+                "nextHopType": "Internet",
+                "hasBgpOverride": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/routeTables/routes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'), '/Microsoft.Sql-managedInstances_UseOnly_mi-AzureMonitor')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "AzureMonitor",
+                "nextHopType": "Internet",
+                "hasBgpOverride": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/routeTables/routes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'), '/Microsoft.Sql-managedInstances_UseOnly_mi-CorpNetPublic')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "CorpNetPublic",
+                "nextHopType": "Internet",
+                "hasBgpOverride": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/routeTables/routes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'), '/Microsoft.Sql-managedInstances_UseOnly_mi-CorpNetSaw')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "CorpNetSaw",
+                "nextHopType": "Internet",
+                "hasBgpOverride": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/routeTables/routes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'), '/Microsoft.Sql-managedInstances_UseOnly_mi-EventHub.northeurope')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "EventHub.northeurope",
+                "nextHopType": "Internet",
+                "hasBgpOverride": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/routeTables/routes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'), '/Microsoft.Sql-managedInstances_UseOnly_mi-EventHub.westeurope')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "EventHub.westeurope",
+                "nextHopType": "Internet",
+                "hasBgpOverride": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/routeTables/routes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'), '/Microsoft.Sql-managedInstances_UseOnly_mi-SqlManagement')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "SqlManagement",
+                "nextHopType": "Internet",
+                "hasBgpOverride": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/routeTables/routes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'), '/Microsoft.Sql-managedInstances_UseOnly_mi-Storage')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "Storage",
+                "nextHopType": "Internet",
+                "hasBgpOverride": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/routeTables/routes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'), '/Microsoft.Sql-managedInstances_UseOnly_mi-Storage.northeurope')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "Storage.northeurope",
+                "nextHopType": "Internet",
+                "hasBgpOverride": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/routeTables/routes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'), '/Microsoft.Sql-managedInstances_UseOnly_mi-Storage.westeurope')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "Storage.westeurope",
+                "nextHopType": "Internet",
+                "hasBgpOverride": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/routeTables/routes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'), '/Microsoft.Sql-managedInstances_UseOnly_subnet-172-17-226-0-24-to-vnetlocal')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "172.17.226.0/24",
+                "nextHopType": "VnetLocal",
+                "hasBgpOverride": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/routeTables/routes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'), '/SqlManagement_0')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "65.55.188.0/24",
+                "nextHopType": "Internet",
+                "hasBgpOverride": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/routeTables/routes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'), '/SqlManagement_1')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "207.68.190.32/27",
+                "nextHopType": "Internet",
+                "hasBgpOverride": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/routeTables/routes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'), '/SqlManagement_10')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "40.113.93.91/32",
+                "nextHopType": "Internet",
+                "hasBgpOverride": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/routeTables/routes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'), '/SqlManagement_11')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "13.69.227.96/27",
+                "nextHopType": "Internet",
+                "hasBgpOverride": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/routeTables/routes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'), '/SqlManagement_12')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "52.138.226.96/27",
+                "nextHopType": "Internet",
+                "hasBgpOverride": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/routeTables/routes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'), '/SqlManagement_13')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "13.74.107.96/27",
+                "nextHopType": "Internet",
+                "hasBgpOverride": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/routeTables/routes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'), '/SqlManagement_14')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "52.233.130.100/32",
+                "nextHopType": "Internet",
+                "hasBgpOverride": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/routeTables/routes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'), '/SqlManagement_15')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "52.164.200.174/32",
+                "nextHopType": "Internet",
+                "hasBgpOverride": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/routeTables/routes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'), '/SqlManagement_16')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "104.46.95.225/32",
+                "nextHopType": "Internet",
+                "hasBgpOverride": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/routeTables/routes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'), '/SqlManagement_17')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "40.85.81.65/32",
+                "nextHopType": "Internet",
+                "hasBgpOverride": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/routeTables/routes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'), '/SqlManagement_2')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "13.106.78.32/27",
+                "nextHopType": "Internet",
+                "hasBgpOverride": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/routeTables/routes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'), '/SqlManagement_3')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "13.106.174.32/27",
+                "nextHopType": "Internet",
+                "hasBgpOverride": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/routeTables/routes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'), '/SqlManagement_4')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "13.106.4.96/27",
+                "nextHopType": "Internet",
+                "hasBgpOverride": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/routeTables/routes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'), '/SqlManagement_5')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "104.214.108.80/32",
+                "nextHopType": "Internet",
+                "hasBgpOverride": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/routeTables/routes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'), '/SqlManagement_6')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "52.179.184.76/32",
+                "nextHopType": "Internet",
+                "hasBgpOverride": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/routeTables/routes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'), '/SqlManagement_7')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "52.187.116.202/32",
+                "nextHopType": "Internet",
+                "hasBgpOverride": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/routeTables/routes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'), '/SqlManagement_8')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "52.177.202.6/32",
+                "nextHopType": "Internet",
+                "hasBgpOverride": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/routeTables/routes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'), '/SqlManagement_9')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/routeTables', parameters('routeTables_rt_sd_ne_burst_test_sqlmgd01_name'))]"
+            ],
+            "properties": {
+                "addressPrefix": "191.235.193.75/32",
+                "nextHopType": "Internet",
+                "hasBgpOverride": false
+            }
+        }
+    ]
+}

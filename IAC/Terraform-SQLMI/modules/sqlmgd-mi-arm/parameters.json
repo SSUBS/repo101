@@ -1,0 +1,18 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "vulnerabilityAssessments_Default_storageContainerPath": {
+            "value": null
+        },
+        "managedInstances_sd_ne_burst_test_sqlmgd01_name": {
+            "value": null
+        },
+        "servers_sd_ne_burst_test_sqlmgd01_name": {
+            "value": null
+        },
+        "virtualNetworks_vnet_sd_ne_burst_test_sqlmgd01_externalid": {
+            "value": null
+        }
+    }
+}

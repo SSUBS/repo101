@@ -1,0 +1,66 @@
+stages:
+- stage: validate
+  jobs:
+  - job: validate
+    continueOnError: false
+    steps:
+    - task: TerraformInstaller@0
+      displayName: 'install'
+      inputs:
+        terraformVersion: '0.12.3'
+    - task: TerraformTaskV1@0
+      displayName: 'init'
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        backendServiceArm: 'Azure subscription 1(c20e4b70-8e8a-4977-abea-a91c74efcab1)'
+        backendAzureRmResourceGroupName: 'ss-uksrg-aci-poc'
+        backendAzureRmStorageAccountName: 'ssukstfstate'
+        backendAzureRmContainerName: 'tfstate'
+        backendAzureRmKey: 'terraform.state'
+    - task: TerraformTaskV1@0
+      displayName: 'validate'
+      inputs:
+        provider: 'azurerm'
+        command: 'validate'
+    
+- stage: deploy
+  jobs:
+  - deployment: deploy_terraform
+    continueOnError: false
+    environment: 'dev'
+    strategy:
+     runOnce:
+      deploy:
+        steps:
+          - checkout: self
+          - task: TerraformInstaller@0
+            displayName: 'install'
+            inputs:
+              terraformVersion: '0.12.3'
+          - task: TerraformTaskV1@0
+            displayName: 'init'
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              backendServiceArm: 'Azure subscription 1(c20e4b70-8e8a-4977-abea-a91c74efcab1)'
+              backendAzureRmResourceGroupName: 'ss-uksrg-aci-poc'
+              backendAzureRmStorageAccountName: 'ssukstfstate'
+              backendAzureRmContainerName: 'tfstate'
+              backendAzureRmKey: 'terraform.ftstate'
+          - task: TerraformTaskV1@0
+            displayName: 'plan'
+            inputs:
+              provider: 'azurerm'
+              command: 'plan'
+              environmentServiceNameAzureRM: 'Azure subscription 1(c20e4b70-8e8a-4977-abea-a91c74efcab1)'            
+          - task: TerraformTaskV1@0
+            displayName: 'apply'
+            inputs:
+              provider: 'azurerm'
+              command: 'apply'
+              environmentServiceNameAzureRM: 'Azure subscription 1(c20e4b70-8e8a-4977-abea-a91c74efcab1)'
+
+
+
+
